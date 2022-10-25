@@ -70,12 +70,17 @@
                         <p class="copyright">&copy; VVZERO.COM 2017-2021 All rights reserved.</p>
                         <p class="copyright">With &#10084 for Ling Ling.</p>
                         <p>
-                            <a class="copyright" href="mailto:v@vvzero.com">Contact me!</a>
+                            <a class="copyright" href="mailto:v@vvzero.com">Contact me</a>
+                            &nbsp;|&nbsp;
                             <a class="copyright" href="https://status.vvzero.com">Status Monitor</a>
                         </p>
-                        <p><a style="font-size: 9px" href="https://beian.miit.gov.cn/">苏ICP备17037222号</a></p>
+                        <p hidden id="beian"><a style="font-size: 9px" href="https://beian.miit.gov.cn/">苏ICP备17037222号</a></p>
                     </footer>
-
+                    <script>
+                        if (/zh/i.test(navigator.language)) {
+                            document.getElementById("beian").removeAttribute("hidden");
+                        }
+                    </script>
             </div>
 
         <!-- BG -->
