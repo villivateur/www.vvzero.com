@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#faf6ee">
+    <meta name="description" content="初来乍到，还好有你。记录念念从 2026 年 9 月 8 日 13:20 开始的每一秒成长。">
+    <link rel="icon" href="favicon.ico">
+    <title>念念的小小世界 · 初来乍到，还好有你</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --paper: #faf6ee;
+            --ink: #685044;
+            --muted: #796456;
+            --rose: #986052;
+            --line: #e8ddd0;
+            --serif: "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-width: 280px;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 4% 42%, #f5e5d67a, transparent 35%),
+                radial-gradient(ellipse at 98% 75%, #f1e6d77a, transparent 35%),
+                radial-gradient(ellipse at 58% 0%, #fffaf0, transparent 55%);
+            pointer-events: none;
+        }
+
+        ::selection { background: #efd6c9; }
+
+        .page {
+            position: relative;
+            isolation: isolate;
+            width: min(1100px, 100%);
+            min-height: 100vh;
+            min-height: 100svh;
+            margin: 0 auto;
+            padding: 0 48px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            min-height: 100px;
+            border-bottom: 1px solid var(--line);
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand svg { width: 26px; height: 30px; color: #9a9d7c; }
+        .header-date { color: var(--muted); font-size: 10px; letter-spacing: 2.5px; }
+
+        main {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 48px 0 40px;
+        }
+
+        .welcome { position: relative; text-align: center; }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin: 0;
+            color: var(--rose);
+            font-size: 13px;
+            letter-spacing: 3px;
+        }
+
+        .little-heart { width: 13px; height: 13px; fill: currentColor; }
+
+        h1 {
+            margin: 20px 0 17px;
+            font-family: var(--serif);
+            font-size: clamp(30px, 4.3vw, 49px);
+            font-weight: 500;
+            line-height: 1.5;
+            letter-spacing: 5px;
+        }
+
+        .title-ending { position: relative; display: inline-block; white-space: nowrap; }
+
+        .title-ending::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            height: 10px;
+            bottom: 5px;
+            left: 1px;
+            right: 4px;
+            background: #efd7bf;
+            border-radius: 45% 50% 40% 55%;
+            transform: rotate(-2deg);
+        }
+
+        .intro { margin: 0; color: var(--muted); font-size: 13px; letter-spacing: 2px; line-height: 1.8; }
+
+        .clock-section { margin-top: 39px; text-align: center; }
+
+        .clock-heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 0 0 20px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .clock-heading::before, .clock-heading::after {
+            content: "";
+            width: 32px;
+            height: 1px;
+            background: #d9c8b8;
+        }
+
+        .timer {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 13px;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .time-unit {
+            position: relative;
+            min-width: 0;
+            padding: 22px 5px 17px;
+            border: 1px solid #eaddcc;
+            border-radius: 12px;
+            background: #fffcf6;
+            box-shadow: 0 4px 0 #eee5d85c;
+        }
+
+        .time-unit:nth-child(2), .time-unit:nth-child(5) {
+            background: #f4e8df;
+            border-color: #ead7c9;
+        }
+
+        .time-unit:nth-child(3) { background: #edf0e5; border-color: #dce1d0; }
+        .time-unit:nth-child(6) { background: #f8edde; border-color: #eadeca; }
+
+        .number {
+            display: block;
+            font-family: "Baskerville", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+            font-size: clamp(36px, 5.4vw, 59px);
+            font-weight: 400;
+            font-variant-numeric: tabular-nums lining-nums;
+            line-height: 1;
+            letter-spacing: 1px;
+        }
+
+        .unit-label { display: block; margin-top: 13px; color: var(--muted); font-size: 11px; letter-spacing: 2px; }
+        .birth-date { margin: 22px 0 0; color: var(--muted); font-size: 11px; letter-spacing: 1px; line-height: 1.9; }
+        .birth-date time { white-space: nowrap; }
+        .timezone { margin-left: 7px; font-size: 10px; }
+
+        .keepsake {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 66px;
+            margin: 48px auto 7px;
+        }
+
+        .photo {
+            position: relative;
+            flex: 0 0 218px;
+            width: 218px;
+            margin: 0;
+            padding: 11px 11px 0;
+            background: #fffcf7;
+            box-shadow: 0 3px 6px #71533d08, 0 12px 27px #71533d10;
+            transform: rotate(-5deg);
+        }
+
+        .photo::before {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            width: 74px;
+            height: 25px;
+            top: -12px;
+            left: calc(50% - 37px);
+            background: #d7c3a38c;
+            clip-path: polygon(3% 0, 98% 2%, 96% 16%, 100% 32%, 96% 51%, 99% 69%, 96% 85%, 98% 100%, 0 98%, 3% 79%, 0 62%, 4% 44%, 1% 24%);
+            transform: rotate(9deg);
+        }
+
+        .photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; border-radius: 2px; }
+        .photo figcaption { padding: 14px 0 15px; text-align: center; color: #826c58; font-family: var(--serif); font-size: 11px; letter-spacing: 1px; }
+
+        .note { position: relative; padding-top: 6px; }
+        .note-label { margin: 0 0 13px; color: #6c7254; font-size: 9px; letter-spacing: 3px; }
+        .note h2 { margin: 0; font-family: var(--serif); font-size: 25px; font-weight: 400; letter-spacing: 3px; line-height: 1.8; }
+        .note-copy { margin: 15px 0 0; color: var(--muted); font-size: 11px; letter-spacing: 1px; line-height: 2; }
+        .signature { display: flex; align-items: center; gap: 8px; margin: 16px 0 0; color: var(--rose); font-family: var(--serif); font-size: 12px; letter-spacing: 1px; }
+        .signature::before { content: ""; width: 17px; height: 1px; background: #cdae99; }
+
+        .flower { position: absolute; top: -10px; right: -55px; width: 53px; height: 73px; transform: rotate(14deg); }
+
+        .decoration { position: absolute; z-index: -1; pointer-events: none; }
+        .sun { width: 75px; height: 75px; top: 7px; left: -42px; color: #c7a467; transform: rotate(-12deg); }
+        .sparkle { top: 38px; right: -18px; width: 40px; height: 48px; color: #b8ba98; transform: rotate(10deg); }
+        .tiny-sparkle { top: 266px; left: -49px; color: #c8a883; font-size: 27px; }
+        .floating-heart { right: 1px; bottom: 189px; width: 23px; height: 27px; color: #c69a87; transform: rotate(18deg); }
+
+        .page-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 9px;
+            min-height: 66px;
+            padding: 19px 0 max(19px, env(safe-area-inset-bottom));
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+        }
+
+        .page-footer .little-heart { width: 10px; height: 10px; color: #b98575; }
+        noscript p { color: var(--rose); font-size: 12px; text-align: center; line-height: 1.8; }
+
+        @media (min-width: 1500px) and (min-height: 950px) {
+            main { display: flex; flex-direction: column; justify-content: center; }
+            .keepsake { margin-top: 65px; }
+        }
+
+        @media (max-width: 900px) {
+            .page { padding-inline: 32px; }
+            .sun { left: 0; top: -12px; width: 52px; height: 52px; }
+            .sparkle { right: 2px; top: 4px; width: 29px; }
+            .tiny-sparkle { left: 0; top: 350px; font-size: 21px; }
+            .floating-heart { right: 0; bottom: 69px; }
+            .timer { gap: 10px; }
+        }
+
+        @media (max-width: 600px) {
+            .page { padding-inline: 22px; }
+            .page-header { min-height: 76px; font-size: 11px; letter-spacing: 1px; }
+            .brand { gap: 7px; }
+            .brand svg { width: 23px; }
+            .header-date { font-size: 8px; letter-spacing: 1px; }
+            main { padding-top: 36px; padding-bottom: 30px; }
+            .eyebrow { font-size: 12px; }
+            h1 { max-width: 340px; margin: 17px auto 14px; font-size: 35px; letter-spacing: 3px; line-height: 1.55; }
+            .title-start { display: block; }
+            .title-comma { display: inline-block; width: 0; overflow: hidden; vertical-align: bottom; }
+            .intro { font-size: 11px; letter-spacing: 1px; }
+            .clock-section { margin-top: 29px; }
+            .clock-heading { margin-bottom: 17px; font-size: 11px; letter-spacing: 1px; gap: 10px; }
+            .clock-heading::before, .clock-heading::after { width: 21px; }
+            .timer { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 360px; }
+            .time-unit { padding: 17px 5px 13px; border-radius: 10px; }
+            .number { font-size: 43px; }
+            .unit-label { margin-top: 9px; font-size: 10px; }
+            .birth-date { margin-top: 19px; font-size: 10px; letter-spacing: .4px; }
+            .timezone { display: block; margin: 2px 0 0; font-size: 9px; }
+            .keepsake { flex-direction: column; gap: 31px; margin-top: 37px; }
+            .photo { flex-basis: auto; width: 214px; }
+            .note { padding: 0; text-align: center; }
+            .note-label { margin-bottom: 9px; font-size: 8px; }
+            .note h2 { font-size: 23px; line-height: 1.65; letter-spacing: 2px; }
+            .note-copy { margin-top: 10px; font-size: 10px; }
+            .signature { justify-content: center; margin-top: 11px; font-size: 11px; }
+            .flower { top: 4px; right: -51px; width: 39px; height: 59px; }
+            .sun { top: 4px; left: 0; width: 43px; height: 43px; }
+            .sparkle { top: 85px; right: 1px; width: 22px; height: 30px; }
+            .tiny-sparkle { top: auto; bottom: 354px; left: 6px; }
+            .floating-heart { bottom: 239px; right: 7px; width: 21px; }
+            .page-footer { min-height: 61px; font-size: 9px; letter-spacing: 1px; }
+        }
+
+        @media (max-width: 350px) {
+            .page { padding-inline: 16px; }
+            .header-date { letter-spacing: 0; }
+            h1 { font-size: 31px; }
+            .timer { gap: 9px; }
+            .number { font-size: 37px; }
+            .flower { right: -33px; width: 29px; }
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .welcome, .clock-section, .keepsake { animation: arrive 900ms both; }
+            .clock-section { animation-delay: 100ms; }
+            .keepsake { animation-delay: 200ms; }
+            @keyframes arrive {
+                from { opacity: 0; translate: 0 8px; }
+                to { opacity: 1; translate: 0 0; }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header class="page-header">
+            <div class="brand">
+                <svg viewBox="0 0 30 34" fill="none" aria-hidden="true">
+                    <path d="M15 29V14M15 22C6 23 3 17 4 12c7-1 11 3 11 10ZM15 17C15 9 20 5 26 6c1 7-4 11-11 11Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>念念的小小世界</span>
+            </div>
+            <span class="header-date">SINCE 2026.09.08</span>
+        </header>
+
+        <main>
+            <section class="welcome" aria-labelledby="welcome-title">
+                <svg class="decoration sun" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+                    <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                        <circle cx="40" cy="40" r="18" fill="#f3e4bf" />
+                        <path d="M40 9v6m0 50v6M9 40h6m50 0h6M18 18l4 4m36 36 4 4M18 62l4-4m36-36 4-4M27 11l2 5m22 48 2 5M11 53l5-2m48-22 5-2" />
+                        <path d="M33 39v2m14-2v2m-12 6q5 5 10 0" />
+                    </g>
+                </svg>
+                <svg class="decoration sparkle" viewBox="0 0 40 48" fill="none" aria-hidden="true">
+                    <path d="M19 6c0 14-3 18-14 18 11 0 14 4 14 18 0-14 3-18 14-18-11 0-14-4-14-18Z" stroke="currentColor" stroke-width="1.3" />
+                    <path d="M34 3v8m-4-4h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                </svg>
+                <p class="eyebrow">
+                    <svg class="little-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21S2 14.5 2 7.8C2 2.5 8.5.5 12 6c3.5-5.5 10-3.5 10 1.8C22 14.5 12 21 12 21Z" /></svg>
+                    你好呀，念念
+                </p>
+                <h1 id="welcome-title"><span class="title-start">初来乍到<span class="title-comma">，</span></span><span class="title-ending">还好有你</span></h1>
+                <p class="intro">从此，我们的世界，多了一个小小的你。</p>
+            </section>
+
+            <section class="clock-section" aria-labelledby="clock-heading">
+                <h2 class="clock-heading" id="clock-heading">你来到这个世界，已经</h2>
+                <div class="timer" role="timer" aria-live="off" aria-label="念念出生后经过的时间">
+                    <div class="time-unit"><span class="number" id="years">--</span><span class="unit-label">年</span></div>
+                    <div class="time-unit"><span class="number" id="months">--</span><span class="unit-label">月</span></div>
+                    <div class="time-unit"><span class="number" id="days">--</span><span class="unit-label">日</span></div>
+                    <div class="time-unit"><span class="number" id="hours">--</span><span class="unit-label">时</span></div>
+                    <div class="time-unit"><span class="number" id="minutes">--</span><span class="unit-label">分</span></div>
+                    <div class="time-unit"><span class="number" id="seconds">--</span><span class="unit-label">秒</span></div>
+                </div>
+                <p class="birth-date">故事始于 <time datetime="2026-09-08T13:20:00+08:00">2026 年 9 月 8 日 · 13:20</time><span class="timezone">北京时间 · UTC+8</span></p>
+                <noscript><p>启用 JavaScript，就能看到念念实时更新的成长计时。</p></noscript>
+            </section>
+
+            <section class="keepsake" aria-label="给念念的一封小情书">
+                <figure class="photo">
+                    <img src="../images/296b7c14-4fe1-4730-84fe-18ac33e97c13.png" width="1254" height="1254" alt="温馨的一家三口插画：爸爸妈妈依偎在一起，怀里抱着熟睡的念念" decoding="async">
+                    <figcaption>我们的小家，多了一个你 ♡</figcaption>
+                </figure>
+                <div class="note">
+                    <svg class="flower" viewBox="0 0 60 86" fill="none" aria-hidden="true">
+                        <path d="M31 40c-5 17 5 24-1 41m1-18c-12 0-17-7-16-12 10 0 14 5 16 12Zm1 8c11-1 16-7 16-12-10 1-15 6-16 12Z" stroke="#979e79" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M29 20C15-1 7 16 18 25-5 24 2 42 20 35c-8 21 12 24 14 5 11 20 25 6 11-6 24-1 18-20-1-13C52 0 32-2 29 20Z" fill="#f2e6d2" stroke="#c9ae83" stroke-width="1.2" />
+                        <circle cx="31" cy="28" r="8" fill="#d8b873" />
+                    </svg>
+                    <p class="note-label">A LITTLE NOTE FOR YOU</p>
+                    <h2>慢慢长大，<br>慢慢看世界。</h2>
+                    <p class="note-copy">你只管做你的小小孩，<br>我们会一直，把爱装满你的口袋。</p>
+                    <p class="signature">爱你的爸爸妈妈</p>
+                </div>
+            </section>
+
+            <span class="decoration tiny-sparkle" aria-hidden="true">✧</span>
+            <svg class="decoration floating-heart" viewBox="0 0 28 30" fill="none" aria-hidden="true"><path d="M14 26S2 17 3 9c1-7 9-6 11 0 4-8 12-6 11 1-1 8-11 16-11 16Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+        </main>
+
+        <footer class="page-footer">
+            <span>平凡的日子</span>
+            <svg class="little-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21S2 14.5 2 7.8C2 2.5 8.5.5 12 6c3.5-5.5 10-3.5 10 1.8C22 14.5 12 21 12 21Z" /></svg>
+            <span>因为你而闪闪发光</span>
+        </footer>
+    </div>
+
+    <script>
+        (() => {
+            const BIRTH_TIME = Date.parse('2026-09-08T13:20:00+08:00');
+            const BEIJING_OFFSET = 8 * 60 * 60 * 1000;
+            const SECOND = 1000;
+            const MINUTE = 60 * SECOND;
+            const HOUR = 60 * MINUTE;
+            const DAY = 24 * HOUR;
+            const fields = Object.fromEntries(
+                ['years', 'months', 'days', 'hours', 'minutes', 'seconds']
+                    .map(name => [name, document.getElementById(name)])
+            );
+
+            function getAge(now) {
+                // Shift into Beijing wall time and use UTC getters, regardless of the visitor's timezone.
+                const current = new Date(Math.max(now, BIRTH_TIME) + BEIJING_OFFSET);
+                let totalMonths = (current.getUTCFullYear() - 2026) * 12 + current.getUTCMonth() - 8;
+                let anniversary = Date.UTC(2026, 8 + totalMonths, 8, 13, 20);
+
+                // Count complete calendar months, then the actual days and time since that anniversary.
+                if (current.getTime() < anniversary) {
+                    totalMonths -= 1;
+                    anniversary = Date.UTC(2026, 8 + totalMonths, 8, 13, 20);
+                }
+
+                const remainder = current.getTime() - anniversary;
+                return {
+                    years: Math.floor(totalMonths / 12),
+                    months: totalMonths % 12,
+                    days: Math.floor(remainder / DAY),
+                    hours: Math.floor(remainder / HOUR) % 24,
+                    minutes: Math.floor(remainder / MINUTE) % 60,
+                    seconds: Math.floor(remainder / SECOND) % 60
+                };
+            }
+
+            function updateTimer() {
+                const age = getAge(Date.now());
+                for (const [name, value] of Object.entries(age)) {
+                    const text = String(value).padStart(2, '0');
+                    if (fields[name].textContent !== text) fields[name].textContent = text;
+                }
+            }
+
+            updateTimer();
+            setInterval(updateTimer, SECOND);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) updateTimer();
+            });
+        })();
+    </script>
+</body>
+
+</html>
